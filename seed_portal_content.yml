@@ -30,7 +30,7 @@
             label: "{{ usecase }}"
             loop_var: usecase
 
-        - name: Get all usecase setup.yml files
+        - name: Get all usecase setup.yml files from experiences folder
           ansible.builtin.find:
             paths: "{{ __tmp_dir.path }}/{{ usecase["url"].split("/")[-1] }}/extensions/experiences/'
             patterns: setup.yml
