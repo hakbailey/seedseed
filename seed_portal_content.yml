@@ -33,12 +33,16 @@
         - name: Get all usecase setup.yml files from experiences folder
           ansible.builtin.find:
             paths: '{{ __tmp_dir.path }}/{{ usecase["url"].split("/")[-1] }}/extensions/experiences/'
-            patterns: setup.yml
+            patterns: "setup.yml"
             recurse: true
           loop: "{{ selected_usecases }}"
           loop_control:
             loop_var: usecase
           register: experiences
+
+        - name: Debug
+          debug:
+            msg: "{{ experiences }}"
 
         - name: Load experiences
           ansible.builtin.include_tasks: load_experience.yml
