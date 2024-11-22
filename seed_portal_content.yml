@@ -46,6 +46,6 @@
 
         - name: Load experiences
           ansible.builtin.include_tasks: load_experience.yml
-          loop: '{{ experiences.files }}'
+          loop: '{{ experiences.results[0].files }}'
           loop_control:
             loop_var: experience
