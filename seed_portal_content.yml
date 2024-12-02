@@ -18,7 +18,7 @@
         suffix: build
       register: __tmp_dir
 
-    - name: Load experience content
+    - name: Load pattern content
       block:
         - name: Get supported Automation Application
           ansible.builtin.git:
@@ -30,22 +30,18 @@
             label: "{{ usecase }}"
             loop_var: usecase
 
-        - name: Get all usecase setup.yml files from experiences folder
+        - name: Get all usecase setup.yml files from patterns folder
           ansible.builtin.find:
-            paths: '{{ __tmp_dir.path }}/{{ usecase["url"].split("/")[-1] }}/extensions/experiences/'
+            paths: '{{ __tmp_dir.path }}/{{ usecase["url"].split("/")[-1] }}/extensions/patterns/'
             patterns: "setup.yml"
             recurse: true
           loop: "{{ selected_usecases }}"
           loop_control:
             loop_var: usecase
-          register: experiences
+          register: patterns
 
-        - name: Debug
-          debug:
-            msg: "{{ experiences }}"
-
-        - name: Load experiences
-          ansible.builtin.include_tasks: load_experience.yml
-          loop: '{{ experiences.results[0].files }}'
+        - name: Load patterns
+          ansible.builtin.include_tasks: load_pattern.yml
+          loop: '{{ patterns.results[0].files }}'
           loop_control:
-            loop_var: experience
+            loop_var: pattern
